@@ -1,6 +1,7 @@
 package com.springexercise.controller;
 
 import com.springexercise.common.response.Response;
+import com.springexercise.dto.user.UpdateUserDto;
 import com.springexercise.dto.user.UserDto;
 import com.springexercise.entity.User;
 import com.springexercise.service.UserService;
@@ -30,7 +31,7 @@ public class UserController {
 
 
     @PutMapping("{id}")
-    public ResponseEntity<Response> updateUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto dto) {
+    public ResponseEntity<Response> updateUser(@PathVariable("id") Long id, @Valid @RequestBody UpdateUserDto dto) {
         return userService.updateUser(id, dto);
     }
 

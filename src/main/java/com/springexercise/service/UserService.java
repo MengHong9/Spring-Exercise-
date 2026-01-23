@@ -2,6 +2,7 @@ package com.springexercise.service;
 
 
 import com.springexercise.common.response.Response;
+import com.springexercise.dto.user.UpdateUserDto;
 import com.springexercise.dto.user.UserDto;
 import com.springexercise.dto.user.UserResponseDto;
 import com.springexercise.entity.User;
@@ -50,11 +51,11 @@ public class UserService {
     }
 
 
-    public ResponseEntity<Response> updateUser(Long id,UserDto dto) {
+    public ResponseEntity<Response> updateUser(Long id, UpdateUserDto dto) {
         User user = userRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("user not found"));
 
-        userMapper.updateUser(dto, user);
+        userMapper.updateUser(user , dto);
         userRepository.save(user);
 
         return ResponseEntity.status(HttpStatus.OK).body(Response.success("success" , "successfully updated user"));

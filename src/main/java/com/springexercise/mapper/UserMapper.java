@@ -1,5 +1,6 @@
 package com.springexercise.mapper;
 
+import com.springexercise.dto.user.UpdateUserDto;
 import com.springexercise.dto.user.UserDto;
 import com.springexercise.dto.user.UserResponseDto;
 import com.springexercise.entity.User;
@@ -42,14 +43,13 @@ public class UserMapper {
     }
 
 
-    public void updateUser(UserDto dto , User user) {
+    public void updateUser(User user , UpdateUserDto dto) {
         if (user == null || dto == null) {
             return;
         }
         user.setName(dto.getName());
         user.setAge(dto.getAge());
         user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
         user.setRole(dto.getRole());
     }
 }
