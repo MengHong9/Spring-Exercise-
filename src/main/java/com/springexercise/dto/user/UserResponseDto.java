@@ -1,6 +1,8 @@
 package com.springexercise.dto.user;
 
 
+import com.springexercise.common.enums.Role;
+
 public class UserResponseDto {
     private Long id;
     private String name;
@@ -39,6 +41,14 @@ public class UserResponseDto {
         this.email = email;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -47,14 +57,8 @@ public class UserResponseDto {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
-    }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     private String password;
-    private String role;
+    private Role role;
 }

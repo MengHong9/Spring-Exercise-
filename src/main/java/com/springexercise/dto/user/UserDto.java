@@ -1,5 +1,6 @@
 package com.springexercise.dto.user;
 
+import com.springexercise.common.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -43,11 +44,11 @@ public class UserDto {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -71,5 +72,6 @@ public class UserDto {
     private String password;
 
 
-    private String role;
+    @NotNull(message = "role is required")
+    private Role role;
 }

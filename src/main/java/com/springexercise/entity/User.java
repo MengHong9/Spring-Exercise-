@@ -1,5 +1,6 @@
 package com.springexercise.entity;
 
+import com.springexercise.common.enums.Role;
 import jakarta.persistence.*;
 
 
@@ -48,19 +49,23 @@ public class User {
         return password;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
-    }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     private String email;
     private String password;
-    private String role;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

@@ -1,5 +1,6 @@
 package com.springexercise.dto.user;
 
+import com.springexercise.common.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -36,17 +37,20 @@ public class UpdateUserDto {
         return email;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getRole() {
-        return role;
-    }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
+
 
     @NotNull(message = "name is required")
     @NotBlank(message = "name can not be empty")
@@ -63,5 +67,5 @@ public class UpdateUserDto {
     private String email;
 
 
-    private String role;
+    private Role role;
 }
