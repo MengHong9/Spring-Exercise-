@@ -2,6 +2,7 @@ package com.springexercise.service;
 
 
 import com.springexercise.common.response.Response;
+import com.springexercise.dto.user.ChangePasswordUserDto;
 import com.springexercise.dto.user.UpdateUserDto;
 import com.springexercise.dto.user.UserDto;
 import com.springexercise.dto.user.UserResponseDto;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserService {
@@ -53,7 +55,7 @@ public class UserService {
 
     public ResponseEntity<Response> updateUser(Long id, UpdateUserDto dto) {
         User user = userRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("user not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("user not found with id " + id ));
 
         userMapper.updateUser(user , dto);
         userRepository.save(user);
@@ -63,9 +65,30 @@ public class UserService {
 
     public ResponseEntity<Response> deleteUser(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("user not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("user not found with id : "+id));
 
         userRepository.delete(user);
         return ResponseEntity.status(HttpStatus.OK).body(Response.success("success" , "successfully deleted user"));
+    }
+
+    public ResponseEntity<Response> changePassword(Long id, ChangePasswordUserDto dto) {
+        User user = userRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("user not found with id : "+id));
+
+
+        // old password is not correct
+        if (!Objects.equals(dto.getOldPassword(), user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(Response.error("fail","old password is incorrect"));
+        }
+
+        // confirm password incorrect and new password does not match
+        if (!Objects.equals(dto.getNewPassword(), dto.getConfirmPassword())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error("fail","new password and confirm password does not match"));
+        }
+
+        userMapper.changePassword(user , dto.getNewPassword());
+        userRepository.save(user);
+
+        return ResponseEntity.status(HttpStatus.OK).body(Response.success("success" , "successfully changed password"));
     }
 }

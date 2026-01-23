@@ -1,6 +1,7 @@
 package com.springexercise.controller;
 
 import com.springexercise.common.response.Response;
+import com.springexercise.dto.user.ChangePasswordUserDto;
 import com.springexercise.dto.user.UpdateUserDto;
 import com.springexercise.dto.user.UserDto;
 import com.springexercise.entity.User;
@@ -39,5 +40,11 @@ public class UserController {
     @DeleteMapping("{id}")
     public ResponseEntity<Response> deleteUser(@PathVariable("id") Long id) {
         return userService.deleteUser(id);
+    }
+
+
+    @PatchMapping("/change-password/{id}")
+    public ResponseEntity<Response> changeUserPassword(@PathVariable("id") Long id, @Valid @RequestBody ChangePasswordUserDto dto) {
+        return userService.changePassword(id, dto);
     }
 }

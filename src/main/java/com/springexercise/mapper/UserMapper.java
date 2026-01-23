@@ -31,6 +31,8 @@ public class UserMapper {
         userResponseDto.setEmail(user.getEmail());
         userResponseDto.setPassword(user.getPassword());
         userResponseDto.setRole(user.getRole());
+        userResponseDto.setCreatedAt(user.getCreatedAt());
+        userResponseDto.setUpdatedAt(user.getUpdatedAt());
         return userResponseDto;
     }
 
@@ -51,5 +53,9 @@ public class UserMapper {
         user.setAge(dto.getAge());
         user.setEmail(dto.getEmail());
         user.setRole(dto.getRole());
+    }
+
+    public void changePassword(User user, String newPassword) {
+        user.setPassword(newPassword);
     }
 }
