@@ -79,6 +79,11 @@ public class Response {
         this.timestamp = System.currentTimeMillis();
     }
 
+    private Response(String message, String description) {
+        this.message = message;
+        this.description = description;
+    }
+
     public static Response success(String message , String description) {
         return new Response("200", message, description);
     }
@@ -93,6 +98,10 @@ public class Response {
 
     public static Response error(String code, String message, String description) {
         return new Response(code, message, description);
+    }
+
+    public static Response error(String message, String description) {
+        return new Response(message, description);
     }
 
     public static Response error(String code, String message , String description , Object data) {
