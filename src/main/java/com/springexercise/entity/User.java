@@ -1,7 +1,10 @@
 package com.springexercise.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.springexercise.common.enums.Role;
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -53,6 +56,22 @@ public class User {
         return role;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     public void setRole(Role role) {
         this.role = role;
     }
@@ -68,4 +87,21 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
+
+    @JsonProperty("updated_at")
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

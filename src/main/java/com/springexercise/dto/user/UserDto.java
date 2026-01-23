@@ -1,10 +1,13 @@
 package com.springexercise.dto.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.springexercise.common.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.time.LocalDateTime;
 
 
 public class UserDto {
@@ -66,6 +69,22 @@ public class UserDto {
     @Size(min = 10 , max = 25 , message = "email at least 10 to 25 digits")
     private String email;
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     @NotNull(message = "password is required")
     @NotBlank(message = "password can not be empty")
     @Size(min = 5 , max = 10 , message = "password at least 5 to 10 digits")
@@ -74,4 +93,9 @@ public class UserDto {
 
     @NotNull(message = "role is required")
     private Role role;
+
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 }

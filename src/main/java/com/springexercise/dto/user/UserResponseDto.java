@@ -1,8 +1,13 @@
 package com.springexercise.dto.user;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.springexercise.common.enums.Role;
 
+import java.time.LocalDateTime;
+
+@JsonPropertyOrder({"id" , "name" , "age" , "email" , "password" , "role" , "created_at" , "updated_at"})
 public class UserResponseDto {
     private Long id;
     private String name;
@@ -57,8 +62,29 @@ public class UserResponseDto {
         this.password = password;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
     private String password;
     private Role role;
+
+
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
+
+    @JsonProperty("updated_at")
+    private LocalDateTime updatedAt;
 }
