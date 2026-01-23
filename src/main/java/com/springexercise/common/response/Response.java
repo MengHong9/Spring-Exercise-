@@ -3,15 +3,63 @@ package com.springexercise.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.Data;
 
-@JsonPropertyOrder(value = {"code , message , description , data"})
+
+@JsonPropertyOrder({
+        "code",
+        "message",
+        "description",
+        "data",
+        "timestamp"
+})
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Data
+
 public class Response {
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+
     private String code;
     private String message;
-    private String decription;
+    private String description;
     private Object data;
     private Long timestamp;
 
@@ -19,7 +67,7 @@ public class Response {
     private Response(String code, String message, String description, Object data) {
         this.code = code;
         this.message = message;
-        this.decription = description;
+        this.description = description;
         this.data = data;
         this.timestamp = System.currentTimeMillis();
     }
@@ -27,7 +75,7 @@ public class Response {
     private Response(String code, String message, String description) {
         this.code = code;
         this.message = message;
-        this.decription = description;
+        this.description = description;
         this.timestamp = System.currentTimeMillis();
     }
 
