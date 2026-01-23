@@ -91,4 +91,14 @@ public class UserService {
 
         return ResponseEntity.status(HttpStatus.OK).body(Response.success("success" , "successfully changed password"));
     }
+
+
+    public ResponseEntity<Response> getUserById(Long id) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("user not found with id : "+id));
+
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(Response.success("200","success" , "successfully retrieved user with id : " + id , existingUser));
+    }
 }

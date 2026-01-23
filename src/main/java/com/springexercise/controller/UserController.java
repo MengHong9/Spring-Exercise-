@@ -47,4 +47,10 @@ public class UserController {
     public ResponseEntity<Response> changeUserPassword(@PathVariable("id") Long id, @Valid @RequestBody ChangePasswordUserDto dto) {
         return userService.changePassword(id, dto);
     }
+
+
+    @GetMapping("{id}")
+    public ResponseEntity<Response> getUserById(@PathVariable("id") Long id) {
+        return userService.getUserById(id);
+    }
 }
