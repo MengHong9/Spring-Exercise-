@@ -93,12 +93,23 @@ public class UserService {
     }
 
 
+
     public ResponseEntity<Response> getUserById(Long id) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("user not found with id : "+id));
 
 
-
         return ResponseEntity.status(HttpStatus.OK).body(Response.success("200","success" , "successfully retrieved user with id : " + id , existingUser));
+    }
+
+
+    public ResponseEntity<Response> searchUserByName(String name) {
+        List<User> user = userRepository.findByNameContainingIgnoreCase(name);
+        if (user.isEmpty()) {
+            throw new ResourceNotFoundException("user not found with name : " + name);
+        }
+
+        List<UserResponseDto> dtos = userMapper.toDtoList(user);
+        return ResponseEntity.status(HttpStatus.OK).body(Response.success("200","success" , "successfully retrieved! "  , dtos));
     }
 }
