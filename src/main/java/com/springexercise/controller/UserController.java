@@ -53,4 +53,10 @@ public class UserController {
     public ResponseEntity<Response> getUserById(@PathVariable("id") Long id) {
         return userService.getUserById(id);
     }
+
+
+    @GetMapping("/search")
+    public ResponseEntity<Response> getUserByName(@RequestParam String name) {
+        return userService.searchUserByName(name);
+    }
 }
