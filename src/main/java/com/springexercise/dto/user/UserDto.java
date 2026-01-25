@@ -1,6 +1,6 @@
 package com.springexercise.dto.user;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import com.springexercise.common.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -65,8 +65,7 @@ public class UserDto {
 
     @Email(message = "email must end with @gmail.com")
     @NotNull(message = "email is required")
-    @NotBlank(message = "email can not be empty")
-    @Size(min = 10 , max = 25 , message = "email at least 10 to 25 digits")
+    @Size(min = 10 , max = 25 , message = "email must be between 10 and 25 characters")
     private String email;
 
     public LocalDateTime getCreatedAt() {
