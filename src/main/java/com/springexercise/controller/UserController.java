@@ -32,25 +32,25 @@ public class UserController {
 
 
     @PutMapping("{id}")
-    public ResponseEntity<Response> updateUser(@PathVariable("id") Long id, @Valid @RequestBody UpdateUserDto dto) {
+    public ResponseEntity<Response> updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserDto dto) {
         return userService.updateUser(id, dto);
     }
 
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Response> deleteUser(@PathVariable("id") Long id) {
+    public ResponseEntity<Response> deleteUser(@PathVariable Long id) {
         return userService.deleteUser(id);
     }
 
 
     @PatchMapping("/change-password/{id}")
-    public ResponseEntity<Response> changeUserPassword(@PathVariable("id") Long id, @Valid @RequestBody ChangePasswordUserDto dto) {
+    public ResponseEntity<Response> changeUserPassword(@PathVariable Long id, @Valid @RequestBody ChangePasswordUserDto dto) {
         return userService.changePassword(id, dto);
     }
 
 
     @GetMapping("{id}")
-    public ResponseEntity<Response> getUserById(@PathVariable("id") Long id) {
+    public ResponseEntity<Response> getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
