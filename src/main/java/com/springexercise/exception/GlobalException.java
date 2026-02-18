@@ -24,6 +24,12 @@ public class GlobalException {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Response.error("404" , "fail" , e.getMessage()));
     }
 
+
+    @ExceptionHandler(UnprocessableEntityException.class)
+    public ResponseEntity<Response> handleUnprocessableEntityException(UnprocessableEntityException e){
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(Response.error("422","fail" , e.getMessage()));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Response> handleGenericException(Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Response.error("500" , "fail" , e.getMessage()));
