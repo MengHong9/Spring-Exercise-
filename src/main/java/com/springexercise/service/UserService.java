@@ -9,6 +9,7 @@ import com.springexercise.dto.user.UserResponseDto;
 import com.springexercise.entity.User;
 import com.springexercise.exception.DuplicateException;
 import com.springexercise.exception.ResourceNotFoundException;
+import com.springexercise.exception.UnprocessableEntityException;
 import com.springexercise.mapper.UserMapper;
 import com.springexercise.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +30,14 @@ public class UserService {
     private UserMapper userMapper;
 
 
-    public ResponseEntity<Response> getAllUsers() {
+    public List<UserResponseDto> getAllUsers() {
         List<User> users = userRepository.findAll();
-        List<UserResponseDto> dtos = userMapper.toDtoList(users);
 
-        return ResponseEntity.status(HttpStatus.OK).body(Response.success("200" , "success" , "successfully retrieved user" , dtos ));
+        return userMapper.toDtoList(users);
 
     }
 
-    public ResponseEntity<Response> addUser(UserDto dto) {
+    public void addUser(UserDto dto) {
         if (userRepository.existsByName(dto.getName())) {
             throw new DuplicateException("User with this name already exists");
         }
@@ -49,67 +49,65 @@ public class UserService {
         User user = userMapper.toEntity(dto);
         userRepository.save(user);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(Response.success("201" , "success" , "successfully added user"));
     }
 
 
-    public ResponseEntity<Response> updateUser(Long id, UpdateUserDto dto) {
+    public void updateUser(Long id, UpdateUserDto dto) {
         User user = userRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("user not found with id " + id ));
 
         userMapper.updateUser(user , dto);
         userRepository.save(user);
 
-        return ResponseEntity.status(HttpStatus.OK).body(Response.success("success" , "successfully updated user"));
     }
 
-    public ResponseEntity<Response> deleteUser(Long id) {
+    public void deleteUser(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("user not found with id : "+id));
 
         userRepository.delete(user);
-        return ResponseEntity.status(HttpStatus.OK).body(Response.success("success" , "successfully deleted user"));
+
     }
 
-    public ResponseEntity<Response> changePassword(Long id, ChangePasswordUserDto dto) {
+    public void changePassword(Long id, ChangePasswordUserDto dto) {
         User user = userRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("user not found with id : "+id));
 
 
         // old password is not correct
         if (!Objects.equals(dto.getOldPassword(), user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(Response.error("fail","old password is incorrect"));
+            throw new UnprocessableEntityException("old password is incorrect, please enter the correct password");
         }
 
         // confirm password incorrect and new password does not match
         if (!Objects.equals(dto.getNewPassword(), dto.getConfirmPassword())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error("fail","new password and confirm password does not match"));
+            throw new UnprocessableEntityException("new password and confirm password does not match");
         }
 
         userMapper.changePassword(user , dto.getNewPassword());
         userRepository.save(user);
 
-        return ResponseEntity.status(HttpStatus.OK).body(Response.success("success" , "successfully changed password"));
+
     }
 
 
 
-    public ResponseEntity<Response> getUserById(Long id) {
+    public UserResponseDto getUserById(Long id) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("user not found with id : "+id));
 
 
-        return ResponseEntity.status(HttpStatus.OK).body(Response.success("200","success" , "successfully retrieved user with id : " + id , existingUser));
+        return userMapper.toResponseDto(existingUser);
     }
 
 
-    public ResponseEntity<Response> searchUserByName(String name) {
+    public List<UserResponseDto> searchUserByName(String name) {
         List<User> user = userRepository.findByNameContainingIgnoreCase(name);
         if (user.isEmpty()) {
             throw new ResourceNotFoundException("user not found with name : " + name);
         }
 
-        List<UserResponseDto> dtos = userMapper.toDtoList(user);
-        return ResponseEntity.status(HttpStatus.OK).body(Response.success("200","success" , "successfully retrieved! "  , dtos));
+        return userMapper.toDtoList(user);
+
     }
 }
