@@ -26,15 +26,14 @@ public class ProductService {
     private ProductMapper productMapper;
 
 
-    public ResponseEntity<Response> getAllProducts() {
+    public List<ProductResponseDto> getAllProducts() {
         List<Product> products = productRepository.findAll();
-        List<ProductResponseDto> dtos = productMapper.toDtoList(products);
+        return productMapper.toDtoList(products);
 
-        return ResponseEntity.status(HttpStatus.OK).body(Response.success("200","success" , "successfully retrieved product" , dtos));
     }
 
 
-    public ResponseEntity<Response> createProduct(ProductDto dto) {
+    public void createProduct(ProductDto dto) {
         if (productRepository.existsByProductName(dto.getProductName())){
             throw new DuplicateException("this product already exists with name "+dto.getProductName());
         }
@@ -42,41 +41,46 @@ public class ProductService {
         Product product = productMapper.toEntity(dto);
         productRepository.save(product);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(Response.success("201","success" , "successfully added product "));
+
     }
 
 
-    public ResponseEntity<Response> updateProduct(Long id, ProductDto dto) {
+    public void updateProduct(Long id, ProductDto dto) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(" product not found with id : "+id));
 
+
+        if (productRepository.existsByProductName(dto.getProductName())){
+            throw new DuplicateException("this product already exists");
+        }
+
         productMapper.updateProduct(product,dto);
         productRepository.save(product);
-        return ResponseEntity.status(HttpStatus.OK).body(Response.success("success" , "successfully updated product "));
+
     }
 
 
-    public ResponseEntity<Response> deleteProduct(Long id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("product not foumd with id : "+id));
-
-        productRepository.delete(product);
-        return ResponseEntity.status(HttpStatus.OK).body(Response.success("success" , "successfully deleted product "));
-    }
-
-
-    public ResponseEntity<Response> getProductById(Long id) {
+    public void deleteProduct(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("product not found with id : "+id));
 
-        return ResponseEntity.status(HttpStatus.OK).body(Response.success("200","success" , "successfully retrieved product " , product));
+        productRepository.delete(product);
 
     }
 
-    public ResponseEntity<Response> searchProduct(String productName, Double minPrice, Double maxPrice) {
+
+    public ProductResponseDto getProductById(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("product not found with id : "+id));
+
+        return productMapper.toDto(product);
+
+    }
+
+    public List<Product> searchProduct(String productName, Double minPrice, Double maxPrice) {
         String formatedName = productName != null ? productName.toLowerCase() : null;
-        List<Product> products = productRepository.findAllByFilter(formatedName, minPrice, maxPrice);
-        return ResponseEntity.status(HttpStatus.OK).body(Response.success("200","success" , "successfully retrieved product " , products));
+        return productRepository.findAllByFilter(formatedName, minPrice, maxPrice);
+
     }
 
 
