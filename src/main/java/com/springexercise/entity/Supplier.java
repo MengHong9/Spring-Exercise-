@@ -1,6 +1,7 @@
 package com.springexercise.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -10,7 +11,7 @@ public class Supplier {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long supplierId;
     private String name;
     private String address;
     private String phone;
@@ -19,13 +20,14 @@ public class Supplier {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    public Long getSupplierId() {
+        return supplierId;
+    }
 
-    public Long getId() {
-        return id;
+    public void setSupplierId(Long supplierId) {
+        this.supplierId = supplierId;
     }
-    public void setId(Long id) {
-        this.id = id;
-    }
+
     public String getName() {
         return name;
     }
@@ -77,4 +79,7 @@ public class Supplier {
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
+
+
 }

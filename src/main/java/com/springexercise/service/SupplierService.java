@@ -60,4 +60,11 @@ public class SupplierService {
 
         supplierRepository.delete(entity);
     }
+
+
+    public SupplierResponseDto getSupplierById(Long id){
+        Supplier entity = supplierRepository.findById(id)
+                .orElseThrow( () -> new ResourceNotFoundException("id not found : "+id));
+        return supplierMapper.toDto(entity);
+    }
 }

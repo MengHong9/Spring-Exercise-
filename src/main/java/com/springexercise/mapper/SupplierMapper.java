@@ -28,7 +28,7 @@ public class SupplierMapper {
 
     public SupplierResponseDto toDto(Supplier supplier) {
         SupplierResponseDto dto = new SupplierResponseDto();
-        dto.setId(supplier.getId());
+        dto.setId(supplier.getSupplierId());
         dto.setName(supplier.getName());
         dto.setAddress(supplier.getAddress());
         dto.setPhone(supplier.getPhone());

@@ -46,4 +46,11 @@ public class SupplierController {
         supplierService.deleteSupplier(id);
         return ResponseEntity.status(HttpStatus.OK).body(Response.success("success" , "successfully deleted data"));
     }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Response> getSupplierById(@PathVariable Long id){
+        SupplierResponseDto entity = supplierService.getSupplierById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(Response.success("200", "success", "successfully retrieved data" , entity));
+    }
 }
