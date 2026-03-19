@@ -28,6 +28,7 @@ public class ProductMapper {
         dto.setDescription(product.getDescription());
         dto.setCreatedAt(product.getCreatedAt());
         dto.setUpdatedAt(product.getUpdatedAt());
+
         return dto;
     }
 
